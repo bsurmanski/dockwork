@@ -9,7 +9,7 @@ module dw.draw.gl.glPixelFormat;
 
 import c.gl.gl;
 import c.gl.glext;
-import dw.draw.pixelFormat;
+public import dw.draw.pixelFormat;
 
 //TODO: depth/stencil
 

@@ -7,8 +7,12 @@
 
 module dw.draw.gl.glRenderTarget;
 
+import c.gl.gl;
+import c.gl.glext;
+
+public import dw.draw.renderTarget;
+
 import dw.draw.pixelFormat;
-import dw.draw.renderTarget;
 import dw.draw.gl.glTexture;
 
 // proxy for texture
@@ -19,23 +23,31 @@ class GLRenderTarget : RenderTarget
 
     public:
 
+    @property GLuint renderTargetId() { return _texture.textureId; }
+    @property override uint width() { return _texture.width; }
+    @property override uint height() { return _texture.height; }
+
     this(uint w, uint h, DepthFormat dFormat, StencilFormat sFormat)
     {
+        super(TargetType.DEPTH_STENCIL);
         _texture = new GLTexture(w, h, dFormat, sFormat);
     }
 
     this(uint w, uint h, DepthFormat dFormat)
     {
+        super(TargetType.DEPTH);
         _texture = new GLTexture(w, h, dFormat);
     }
 
     this(uint w, uint h, StencilFormat sFormat)
     {
+        super(TargetType.STENCIL);
         _texture = new GLTexture(w, h, sFormat);
     }
 
     this(uint w, uint h, PixelFormat pFormat)
     {
+        super(TargetType.COLOR);
         _texture = new GLTexture(w, h, pFormat);
     }
 }

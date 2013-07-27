@@ -5,6 +5,8 @@
  * Brandon Surmanski
  */
 
+module dw.resource;
+
 abstract class Resource
 {
     string source;

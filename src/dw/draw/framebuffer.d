@@ -22,6 +22,9 @@ abstract class Framebuffer
         DrawDevice _device;
 
     protected:
+
+        @property RenderTarget[] renderTargets() { return _rtargets; }
+
         bool isDepthStencilCombined(DepthFormat depth, StencilFormat stencil)
         {
             return depth == DepthFormat.DEPTH_24 && stencil == StencilFormat.STENCIL_8;

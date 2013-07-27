@@ -5,9 +5,12 @@
  * Brandon Surmanski
  */
 
+module dw.resourceFileFormat;
+
 import std.stdio;
 
 import dw.resource;
+
 
 abstract class ResourceFileFormat
 {

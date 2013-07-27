@@ -5,6 +5,8 @@
  * Brandon Surmanski
  */
 
+module dw.draw.drawLamp;
+
 import dw.math.vector;
 import dw.math.matrix;
 import dw.math.quat;

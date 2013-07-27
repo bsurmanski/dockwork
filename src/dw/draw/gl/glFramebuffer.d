@@ -7,16 +7,66 @@
 
 module dw.draw.gl.glFramebuffer;
 
-import dw.draw.framebuffer;
+import c.gl.gl;
+import c.gl.glext;
+
+public import dw.draw.framebuffer;
+
+import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.glRenderTarget;
 import dw.draw.drawDevice;
 import dw.draw.pixelFormat;
 
 class GLFramebuffer : Framebuffer
 {
-    this(DrawDevice device, uint w, uint h, 
-            DepthFormat dFormat = DepthFormat.DEPTH_24, 
-            StencilFormat sFormat = StencilFormat.STENCIL_8)
-    {
-        super(device, w, h, dFormat, sFormat);
-    }
+    private:
+        bool _dirty = true;
+        GLuint _framebuffer;
+
+        void clean()
+        {
+            if(_dirty)
+            {
+                uint colors = 0;
+                glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
+                foreach(rtarget; renderTargets)
+                {
+                    if(rtarget.isColorTarget)
+                    {
+                        glFramebufferTexture2D(GL_FRAMEBUFFER, 
+                                GL_COLOR_ATTACHMENT0 + colors, 
+                                GL_TEXTURE_2D, (cast(GLRenderTarget)rtarget).renderTargetId, 0);
+                        colors++; 
+                    } else if(rtarget.isDepthTarget)
+                    {
+                        glFramebufferTexture2D(GL_FRAMEBUFFER,
+                                GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 
+                                (cast(GLRenderTarget)rtarget).renderTargetId, 0);
+                    } else if(rtarget.isStencilTarget)
+                    {
+                        glFramebufferTexture2D(GL_FRAMEBUFFER,
+                                GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 
+                                (cast(GLRenderTarget)rtarget).renderTargetId, 0);
+                    } else if(rtarget.isDepthStencilTarget)
+                    {
+                        glFramebufferTexture2D(GL_FRAMEBUFFER,
+                                GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, 
+                                (cast(GLRenderTarget)rtarget).renderTargetId, 0);
+                    }
+                }
+                GLint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                assert(status == GL_FRAMEBUFFER_COMPLETE);
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            }
+            _dirty = false;
+        }
+
+    public:
+        this(uint w, uint h, 
+                DepthFormat dFormat = DepthFormat.DEPTH_24, 
+                StencilFormat sFormat = StencilFormat.STENCIL_8)
+        {
+            super(GLDrawDevice.instance, w, h, dFormat, sFormat);
+            glGenFramebuffers(1, &_framebuffer);
+        }
 }

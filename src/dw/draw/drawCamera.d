@@ -39,23 +39,32 @@ class DrawCamera
         @property Quat orientation() { return _orientation; }
         @property void orientation(Quat ori) { _vDirty = true; _orientation = ori; }
 
-        @property Matrix4 transformation()
+        @property Matrix4 viewMatrix()
+        {
+            if(_vDirty)
+            {
+                _vMatrix = Matrix4();
+                _vMatrix.translate(_position * -1.0f);
+                //_vMatrix.rotate(_orientation); //TODO allow rotating by Quat
+                _vDirty = false;
+            }
+            return _vMatrix;
+        }
+
+        @property Matrix4 perspectiveMatrix()
+        {
+            if(_pDirty)
+            {
+                //TODO something
+            }
+            return _pMatrix;
+        }
+
+        @property Matrix4 matrix()
         {
             if(_pDirty || _vDirty)
             {
-                if(_pDirty)
-                {
-                    _pDirty = false;
-                }
-
-                if(_vDirty)
-                {
-                    _vMatrix = Matrix4(); 
-                    _vMatrix.translate(_position * -1.0f);
-                    //_vMatrix.rotate(_orientation); //TODO allow rotating by Quat
-                    _vDirty = false;
-                }
-                _pvMatrix = _pMatrix * _vMatrix;
+                _pvMatrix = perspectiveMatrix() * viewMatrix();
             }
 
             return _pvMatrix;

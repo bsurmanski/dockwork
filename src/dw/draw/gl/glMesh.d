@@ -7,9 +7,12 @@
 
 module dw.draw.gl.glMesh;
 
-import dw.draw.mesh;
+import c.gl.gl;
 
-class GLMesh : Mesh 
+public import dw.draw.drawMesh;
+
+class GLMesh : DrawMesh 
 {
-
+    GLuint ibuffer; // index buffer
+    GLuint vbuffer; // vertex buffer
 }

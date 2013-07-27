@@ -7,6 +7,7 @@
 
 module dw.draw.texture;
 
+import dw.draw.drawDevice;
 import dw.draw.image;
 
 abstract class Texture
@@ -14,7 +15,9 @@ abstract class Texture
     protected:
         uint _width;
         uint _height;
-        this(uint w, uint h)
+        DrawDevice _device;
+
+        this(DrawDevice _device, uint w, uint h)
         {
             _width = w;
             _height = h;

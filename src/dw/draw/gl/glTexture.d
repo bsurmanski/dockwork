@@ -9,9 +9,11 @@ module dw.draw.gl.glTexture;
 
 import c.gl.gl;
 
+public import dw.draw.texture;
+
+import dw.draw.gl.glDrawDevice;
 import dw.draw.image;
 import dw.draw.pixelFormat;
-import dw.draw.texture;
 
 import dw.draw.gl.glPixelFormat;
 
@@ -23,7 +25,6 @@ class GLTexture : Texture
         GLuint _internalFormat;
 
     protected:
-        @property GLuint textureID() { return _texture; }
 
         void prepareTexture()
         {
@@ -38,9 +39,11 @@ class GLTexture : Texture
 
     public:
 
+    @property GLuint textureId() { return _texture; }
+
     this(Image image)
     {
-        super(image.width, image.height); 
+        super(GLDrawDevice.instance, image.width, image.height); 
         //TODO upload image data
     }
 
@@ -48,21 +51,23 @@ class GLTexture : Texture
                 PixelFormat pFormat)
     {
         _internalFormat = getInternalFormat(pFormat);
-        super(w,h);
+        super(GLDrawDevice.instance, w,h);
         prepareTexture();
     }
 
     this(uint w, uint h, DepthFormat dFormat)
     {
-        _internalFormat = getInternalFormat(dFormat);
-        super(w,h);
+        //TODO depth format
+        //_internalFormat = getInternalFormat(dFormat);
+        super(GLDrawDevice.instance, w, h);
         prepareTexture();
     }
 
     this(uint w, uint h, StencilFormat sFormat)
     {
-        _internalFormat = getInternalFormat(sFormat);
-        super(w,h);
+        //TODO: stencil format
+        //_internalFormat = getInternalFormat(sFormat);
+        super(GLDrawDevice.instance, w, h);
         prepareTexture();
     }
 
@@ -71,7 +76,7 @@ class GLTexture : Texture
     {
         //_internalFormat = getInternalFormat(dFormat, sFormat);
         //TODO depth stencil internalFormat
-        super(w,h);
+        super(GLDrawDevice.instance, w, h);
         prepareTexture();
     }
 }

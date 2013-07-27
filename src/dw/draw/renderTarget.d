@@ -11,9 +11,32 @@ import dw.draw.pixelFormat;
 
 abstract class RenderTarget 
 {
-    this(); //XXX why is this needed?
-    this(uint w, uint h, PixelFormat pFormat);
-    this(uint w, uint h, DepthFormat dFormat);
-    this(uint w, uint h, StencilFormat sFormat);
-    this(uint w, uint h, DepthFormat dFormat, StencilFormat sFormat);
+    private:
+        TargetType _type;
+    protected:
+
+
+    public:
+
+    enum TargetType
+    {
+        COLOR,
+        DEPTH,
+        STENCIL,
+        DEPTH_STENCIL,
+    }
+
+    @property uint width();
+    @property uint height();
+    @property TargetType type() { return _type; }
+
+    bool isColorTarget() { return type == TargetType.COLOR; }
+    bool isDepthTarget() { return type == TargetType.DEPTH; }
+    bool isStencilTarget() { return type == TargetType.STENCIL; }
+    bool isDepthStencilTarget() { return type == TargetType.DEPTH_STENCIL; }
+
+    this(TargetType type)
+    {
+        _type = type;
+    }
 }
