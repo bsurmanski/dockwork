@@ -22,7 +22,7 @@ class GLDrawProgram : DrawProgram
     private:
         bool _dirty = true;
         GLuint _program;
-        DrawShader[5] _shaders = [null];
+        GLDrawShader[5] _shaders = [null];
 
         void clean()
         {
@@ -38,13 +38,13 @@ class GLDrawProgram : DrawProgram
         }
 
     public:
-        void setStage(ShaderStage stage, DrawShader shader)
+        void setStage(ShaderStage stage, GLDrawShader shader)
         {
             if(_shaders[stage])
             {
                 //TODO: shaders subtype some refcount type
                 //TODO: release shaders[i]
-                glDetachShader(_program, (cast(GLDrawShader)shader).shaderId);
+                glDetachShader(_program, shader.shaderId);
             }
 
             _shaders[stage] = shader;
@@ -61,7 +61,7 @@ class GLDrawProgram : DrawProgram
             setStage(ShaderStage.FRAGMENT, glfShader);
         }
 
-        this(DrawShader vshader, DrawShader fshader)
+        this(GLDrawShader vshader, GLDrawShader fshader)
         {
             super(GLDrawDevice.instance);
             _program = glCreateProgram();

@@ -67,4 +67,14 @@ abstract class Framebuffer
                 }
             }
         }
+
+        void bind(uint attachment, RenderTarget target)
+        {
+            if(_rtargets.length < attachment)
+            {
+                _rtargets.length = attachment + 1;
+            }
+
+            _rtargets[attachment] = target;
+        }
 }

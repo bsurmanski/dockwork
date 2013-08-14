@@ -8,7 +8,7 @@
 module dw.draw.texture;
 
 import dw.draw.drawDevice;
-import dw.draw.image;
+import dw.resource.image;
 
 abstract class Texture
 {

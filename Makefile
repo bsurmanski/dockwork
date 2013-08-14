@@ -3,7 +3,13 @@ SRC=\
 	src/dw/math/noise.d\
 	src/dw/math/matrix.d\
 	src/dw/math/vector.d\
-	src/dw/resource.d\
+	src/dw/resource/resource.d\
+	src/dw/resource/resourceCache.d\
+	src/dw/resource/resourceType.d\
+	src/dw/resource/mesh.d\
+	src/dw/resource/image.d\
+	src/dw/resource/format/resourceFileFormat.d\
+	src/dw/resource/format/mdlMeshFormat.d\
 	src/dw/draw/drawMesh.d\
 	src/dw/draw/framebuffer.d\
 	src/dw/draw/gl/glDrawDevice.d\
@@ -11,7 +17,7 @@ SRC=\
 	src/dw/draw/gl/glTexture.d\
 	src/dw/draw/gl/glRenderTarget.d\
 	src/dw/draw/gl/glPixelFormat.d\
-	src/dw/draw/gl/glMesh.d\
+	src/dw/draw/gl/glDrawMesh.d\
 	src/dw/draw/model.d\
 	src/dw/draw/modelPart.d\
 	src/dw/draw/pixelFormat.d\
@@ -21,8 +27,7 @@ SRC=\
 	src/dw/draw/texture.d\
 	src/dw/draw/renderTarget.d\
 	src/dw/draw/drawCamera.d\
-	src/dw/draw/image.d\
-	src/dw/resourceFileFormat.d\
+	src/dw/draw/drawDeviceFactory.d\
 	src/dw/world/entity.d\
 	src/dw/world/camera.d\
 	src/dw/world/scene.d\

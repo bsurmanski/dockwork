@@ -12,8 +12,8 @@ import c.gl.gl;
 public import dw.draw.texture;
 
 import dw.draw.gl.glDrawDevice;
-import dw.draw.image;
 import dw.draw.pixelFormat;
+import dw.resource.image;
 
 import dw.draw.gl.glPixelFormat;
 

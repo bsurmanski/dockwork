@@ -12,18 +12,21 @@ import dw.draw.renderTarget;
 import dw.draw.pixelFormat;
 import dw.draw.model;
 import dw.draw.texture;
-import dw.draw.image;
 import dw.draw.drawCamera;
 import dw.draw.drawLamp;
 import dw.draw.drawProgram;
 import dw.math.matrix;
 import dw.math.vector;
+import dw.resource.image;
 
 abstract class DrawDevice
 {
     private:
+        static DrawDevice _instance = null;
         static uint _dfwidth = 640; //default width
         static uint _dfheight = 480; //default height
+
+        string _name;
         uint _width;
         uint _height;
 
@@ -43,7 +46,15 @@ abstract class DrawDevice
 
     public:
 
-        static DrawDevice instance();
+        static DrawDevice instance() 
+        { 
+            if(!_instance)
+            { 
+                throw new Exception("DrawDevice not initialized");
+            }
+
+            return _instance; 
+        }
 
         static @property uint defaultWidth() { return _dfwidth;}
         static @property uint defaultHeight() { return _dfheight;}
@@ -53,9 +64,12 @@ abstract class DrawDevice
         @property uint height() { return _height;}
         @property void width(uint w) { _width = w;}
         @property void height(uint h) {_height = h;}
+        @property string name() { return _name; }
+        @property void name(string name) { _name = name; }
 
         this(uint w, uint h)
         {
+            _instance = this;
             width = w;
             height = h;
         }

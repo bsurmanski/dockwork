@@ -5,9 +5,9 @@
  * Brandon Surmanski
  */
 
-module dw.draw.image;
+module dw.resource.image;
 
-import dw.draw.pixelFormat;
+import dw.draw.pixelFormat; ///XXX dependance?
 
 class Image
 {
