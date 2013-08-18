@@ -14,6 +14,9 @@ import std.conv;
 public 
 import dw.resource.resource;
 
+import dw.resource.format.mdlMeshFormat;
+import dw.resource.resourceType;
+
 import dw.math.vector;
 import dw.math.matrix;
 
@@ -95,11 +98,27 @@ interface MeshType
 
 class Mesh : Resource, MeshType
 {
+    protected:
+    static ResourceType _type = null;
+
     uint  _material;
     ubyte _nbones;
 
     Vertex _verts[];
     Face _faces[];
+
+
+    public:
+
+    static @property ResourceType type()
+    {  
+        if(!_type)
+        {
+            _type = new ResourceType(); 
+            _type.addFormat(MdlMeshFormat.instance); //TODO: keep default formats?
+        }
+        return _type;
+    }
 
     @property uint nVerts() { return cast(uint) _verts.length; }
     @property uint nFaces() { return cast(uint) _faces.length; }

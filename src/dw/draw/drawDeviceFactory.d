@@ -21,10 +21,10 @@ abstract class DrawDeviceFactory
         uint _height;
 
     protected:
-        static void addFramebuffer(ref DrawDevice device);
-        static void addRenderTargets(ref DrawDevice device);
-        static void addPrograms(ref DrawDevice device);
-        static DrawDevice createDrawDevice(uint w, uint h);
+        static void addFramebuffer(ref DrawDevice device){}
+        static void addRenderTargets(ref DrawDevice device){}
+        static void addPrograms(ref DrawDevice device){}
+        static DrawDevice createDrawDevice(uint w, uint h){return null;}
 
     public:
 

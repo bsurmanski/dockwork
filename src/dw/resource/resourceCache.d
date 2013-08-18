@@ -63,6 +63,12 @@ class ResourceCache
 
     public:
 
+        this(ResourceType type, uint memLimit = 0)
+        {
+            _type = type;
+            _memLimit = memLimit;
+        }
+
         Resource get(string name)
         {
             CacheEntry entry = _cache[name]; 
@@ -80,6 +86,20 @@ class ResourceCache
             CacheEntry newEntry = CacheEntry(name, filenm, offset);
             register(newEntry);
             return get(&newEntry);
+        }
+
+        void unload(string name)
+        {
+            CacheEntry *entry = name in _cache;
+            if(entry)
+            {
+                if(entry.refs == 0 && !entry.pinned) // safe to unload
+                {
+                    destroy(entry.resource);
+                    entry.resource = null;
+                    entry.loaded = false;
+                }
+            }
         }
 
         void scan(string dirnm, bool recursive = false, bool symlink = true)

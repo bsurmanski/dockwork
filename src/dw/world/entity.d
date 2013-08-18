@@ -7,5 +7,9 @@
 
 module dw.world.entity;
 
-abstract class Entity
-{}
+import dw.world.sceneObject;
+
+class Entity : SceneObject
+{
+
+}

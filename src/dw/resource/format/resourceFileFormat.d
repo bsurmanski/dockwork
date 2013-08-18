@@ -14,7 +14,7 @@ import dw.resource.resource;
 
 abstract class ResourceFileFormat
 {
-    @property ResourceFileFormat instance();
+    static @property ResourceFileFormat instance();
     bool valid(File file, size_t max = 0);
     Resource read(File file, size_t max = 0); 
     void write(Resource res, File file, size_t max = 0);

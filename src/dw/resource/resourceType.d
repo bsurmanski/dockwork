@@ -16,6 +16,11 @@ class ResourceType
 {
     ResourceFileFormat _formats[]; 
 
+    void addFormat(ResourceFileFormat format)
+    {
+        _formats ~= format;
+    }
+
     ResourceFileFormat validFormat(string filenm, uint offset = 0, size_t max = 0)
     {
         foreach(format; _formats)

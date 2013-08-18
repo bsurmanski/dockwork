@@ -36,7 +36,7 @@ class MdlMeshFormat : ResourceFileFormat
         this(){}
 
     public:
-        @property override MdlMeshFormat instance()
+        static @property MdlMeshFormat instance()
         {
             if(!_instance)
             {

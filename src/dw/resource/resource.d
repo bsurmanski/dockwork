@@ -19,9 +19,6 @@ abstract class Resource
 
     protected:
 
-        // Must override
-        void load(File file);
-
         this(File f, string name = "")
         {
             _source = f.name;
@@ -51,6 +48,9 @@ abstract class Resource
         @property void sourceOffset(size_t so) { _sourceOffset = so; }
 
         @property bool loaded() { return _loaded; }
+
+        //XXX Must override
+        void load(File file){}
 
         void load()
         {
