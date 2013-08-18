@@ -2,9 +2,11 @@ import std.stdio;
 
 import dw.draw.gl.glDrawDevice;
 import testDeviceFactory;
+import testApplication;
 
 void main()
 {
-    auto device = TestDeviceFactory.create();
+    TestApplication app = new TestApplication();
+    app.run();
     writeln("test");
 }

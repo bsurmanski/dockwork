@@ -23,12 +23,6 @@ abstract class DrawDevice
 {
     private:
         static DrawDevice _instance = null;
-        static uint _dfwidth = 640; //default width
-        static uint _dfheight = 480; //default height
-
-        string _name;
-        uint _width;
-        uint _height;
 
         Matrix4 _mMatrix; 
         Matrix4 _vMatrix; //TODO: just use camera v/p matrix instead
@@ -56,22 +50,9 @@ abstract class DrawDevice
             return _instance; 
         }
 
-        static @property uint defaultWidth() { return _dfwidth;}
-        static @property uint defaultHeight() { return _dfheight;}
-        static @property void defaultWidth(uint w) { _dfwidth = w;}
-        static @property void defaultHeight(uint h) {_dfheight = h;}
-        @property uint width() { return _width;}
-        @property uint height() { return _height;}
-        @property void width(uint w) { _width = w;}
-        @property void height(uint h) {_height = h;}
-        @property string name() { return _name; }
-        @property void name(string name) { _name = name; }
-
-        this(uint w, uint h)
+        this()
         {
             _instance = this;
-            width = w;
-            height = h;
         }
 
         @property
@@ -84,10 +65,6 @@ abstract class DrawDevice
 
         @property void activeFramebuffer(Framebuffer fb) { _activeFramebuffer = fb; }
         @property Framebuffer activeFramebuffer() { return _activeFramebuffer; }
-
-        void swapBuffers();
-        void clear();
-        //void clear();
 
         /**
          * Model

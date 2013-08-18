@@ -10,14 +10,17 @@ SRC=\
 	src/dw/resource/image.d\
 	src/dw/resource/format/resourceFileFormat.d\
 	src/dw/resource/format/mdlMeshFormat.d\
-	src/dw/draw/drawMesh.d\
-	src/dw/draw/framebuffer.d\
+	src/dw/audio/audioDevice.d\
+	src/dw/draw/gl/glDrawWindow.d\
 	src/dw/draw/gl/glDrawDevice.d\
 	src/dw/draw/gl/glFramebuffer.d\
 	src/dw/draw/gl/glTexture.d\
 	src/dw/draw/gl/glRenderTarget.d\
 	src/dw/draw/gl/glPixelFormat.d\
 	src/dw/draw/gl/glDrawMesh.d\
+	src/dw/draw/drawWindow.d\
+	src/dw/draw/drawMesh.d\
+	src/dw/draw/framebuffer.d\
 	src/dw/draw/model.d\
 	src/dw/draw/modelPart.d\
 	src/dw/draw/pixelFormat.d\
@@ -28,10 +31,13 @@ SRC=\
 	src/dw/draw/renderTarget.d\
 	src/dw/draw/drawCamera.d\
 	src/dw/draw/drawDeviceFactory.d\
+	src/dw/input/inputDevice.d\
+	src/dw/script/scriptDevice.d\
 	src/dw/world/entity.d\
 	src/dw/world/camera.d\
 	src/dw/world/scene.d\
 	src/dw/world/lamp.d\
+	src/dw/system/application.d\
 	#/usr/local/include/d/c/*.d
 
 INC=-I/usr/local/include/d\

@@ -32,31 +32,11 @@ class GLDrawDevice : DrawDevice
     protected:
 
         GLDrawMesh _fsQuad; //Fullscreen quad TODO
-        GLFWwindow *window;
 
     public:
 
-        override @property void name(string name)
+        this()
         {
-            super.name(name);
-            glfwSetWindowTitle(window, name.toStringz());
-        }
-
-        this(uint w, uint h)
-        {
-            super(w, h);
-
-            glfwInit();
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-            glfwWindowHint(GLFW_RESIZABLE, false);
-            glfwWindowHint(GLFW_RED_BITS, 8);
-            glfwWindowHint(GLFW_GREEN_BITS, 8);
-            glfwWindowHint(GLFW_BLUE_BITS, 8);
-            glfwWindowHint(GLFW_ALPHA_BITS, 8);
-            window = glfwCreateWindow(w, h, "", null, null);
-            glfwMakeContextCurrent(window);
-
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glEnable(GL_BLEND);
             glEnable(GL_CULL_FACE);
@@ -87,16 +67,12 @@ class GLDrawDevice : DrawDevice
             glDrawBuffers(16, glBuffers.ptr);
         }
 
-        override void swapBuffers()
+        /*
+        void swapBuffers()
         {
             //TODO: draw framebuffer contents to default gl surface
-            glfwSwapBuffers(window);
         }
-
-        override void clear()
-        {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
-        }
+        */
 
         /**
          * model

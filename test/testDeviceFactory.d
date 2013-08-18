@@ -16,22 +16,24 @@ import dw.draw.gl.glPixelFormat;
 
 class TestDeviceFactory : DrawDeviceFactory
 {
+    static WIDTH = 640;
+    static HEIGHT = 480;
     protected:
         static void addFramebuffer(ref DrawDevice device)
         {
-            device.activeFramebuffer = device.createFramebuffer(device.width, device.height);
+            device.activeFramebuffer = device.createFramebuffer(WIDTH, HEIGHT);
         }
 
         static void addRenderTargets(ref DrawDevice device)
         {
-            RenderTarget rt0 = device.createRenderTarget(device.width, 
-                                                         device.height, 
+            RenderTarget rt0 = device.createRenderTarget(WIDTH, 
+                                                         HEIGHT, 
                                                          PixelFormat.RGBA8);
-            RenderTarget rt1 = device.createRenderTarget(device.width, 
-                                                         device.height, 
+            RenderTarget rt1 = device.createRenderTarget(WIDTH, 
+                                                         HEIGHT, 
                                                          PixelFormat.RGBA8);
-            RenderTarget rt2 = device.createRenderTarget(device.width, 
-                                                         device.height, 
+            RenderTarget rt2 = device.createRenderTarget(WIDTH, 
+                                                         HEIGHT, 
                                                          PixelFormat.RGBA8);
             device.activeFramebuffer.bind(0, rt0);
             device.activeFramebuffer.bind(1, rt1);
