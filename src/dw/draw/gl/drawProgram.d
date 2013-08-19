@@ -5,7 +5,7 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glDrawProgram;
+module dw.draw.gl.drawProgram;
 
 import std.string;
 
@@ -14,8 +14,8 @@ import c.gl.glext;
 
 public import dw.draw.drawProgram;
 
-import dw.draw.gl.glDrawShader;
-import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.drawShader;
+import dw.draw.gl.drawDevice;
 
 class GLDrawProgram : DrawProgram
 {

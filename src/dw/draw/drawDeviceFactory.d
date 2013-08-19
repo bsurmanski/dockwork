@@ -8,7 +8,7 @@
 module dw.draw.deviceFactory;
 
 import dw.draw.drawDevice;
-import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.drawDevice;
 
 abstract class DrawDeviceFactory
 {

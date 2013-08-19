@@ -12,13 +12,13 @@ SRC=\
 	src/dw/resource/format/mdlMeshFormat.d\
 	src/dw/audio/audioDevice.d\
 	src/dw/audio/dummy/audioDevice.d\
-	src/dw/draw/gl/glDrawWindow.d\
-	src/dw/draw/gl/glDrawDevice.d\
-	src/dw/draw/gl/glFramebuffer.d\
-	src/dw/draw/gl/glTexture.d\
-	src/dw/draw/gl/glRenderTarget.d\
-	src/dw/draw/gl/glPixelFormat.d\
-	src/dw/draw/gl/glDrawMesh.d\
+	src/dw/draw/gl/drawWindow.d\
+	src/dw/draw/gl/drawDevice.d\
+	src/dw/draw/gl/framebuffer.d\
+	src/dw/draw/gl/texture.d\
+	src/dw/draw/gl/renderTarget.d\
+	src/dw/draw/gl/pixelFormat.d\
+	src/dw/draw/gl/drawMesh.d\
 	src/dw/draw/drawWindow.d\
 	src/dw/draw/drawMesh.d\
 	src/dw/draw/framebuffer.d\

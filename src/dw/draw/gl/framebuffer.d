@@ -5,15 +5,15 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glFramebuffer;
+module dw.draw.gl.framebuffer;
 
 import c.gl.gl;
 import c.gl.glext;
 
 public import dw.draw.framebuffer;
 
-import dw.draw.gl.glDrawDevice;
-import dw.draw.gl.glRenderTarget;
+import dw.draw.gl.drawDevice;
+import dw.draw.gl.renderTarget;
 import dw.draw.drawDevice;
 import dw.draw.pixelFormat;
 

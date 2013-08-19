@@ -5,7 +5,7 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glRenderTarget;
+module dw.draw.gl.renderTarget;
 
 import c.gl.gl;
 import c.gl.glext;
@@ -13,7 +13,7 @@ import c.gl.glext;
 public import dw.draw.renderTarget;
 
 import dw.draw.pixelFormat;
-import dw.draw.gl.glTexture;
+import dw.draw.gl.texture;
 
 // proxy for texture
 class GLRenderTarget : RenderTarget 

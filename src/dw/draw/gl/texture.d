@@ -5,17 +5,17 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glTexture;
+module dw.draw.gl.texture;
 
 import c.gl.gl;
 
 public import dw.draw.texture;
 
-import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.drawDevice;
 import dw.draw.pixelFormat;
 import dw.resource.image;
 
-import dw.draw.gl.glPixelFormat;
+import dw.draw.gl.pixelFormat;
 
 class GLTexture : Texture 
 {

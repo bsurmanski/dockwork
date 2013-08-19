@@ -5,7 +5,7 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glDrawWindow;
+module dw.draw.gl.drawWindow;
 
 import c.glfw.glfw;
 import std.string;

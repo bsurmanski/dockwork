@@ -5,7 +5,7 @@
  * Brandon Surmansk
  */
 
-module dw.draw.gl.glDrawDevice;
+module dw.draw.gl.drawDevice;
 
 import c.gl.gl;
 import c.gl.glext;
@@ -21,10 +21,10 @@ import dw.draw.drawDevice;
 import dw.draw.drawLamp;
 import dw.draw.pixelFormat;
 import dw.draw.model;
-import dw.draw.gl.glFramebuffer;
-import dw.draw.gl.glRenderTarget;
-import dw.draw.gl.glTexture;
-import dw.draw.gl.glDrawMesh;
+import dw.draw.gl.framebuffer;
+import dw.draw.gl.renderTarget;
+import dw.draw.gl.texture;
+import dw.draw.gl.drawMesh;
 import dw.resource.image;
 
 class GLDrawDevice : DrawDevice

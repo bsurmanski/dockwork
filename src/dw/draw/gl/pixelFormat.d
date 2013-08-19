@@ -5,7 +5,7 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glPixelFormat;
+module dw.draw.gl.pixelFormat;
 
 import c.gl.gl;
 import c.gl.glext;

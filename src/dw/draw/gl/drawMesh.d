@@ -5,13 +5,13 @@
  * Brandon Surmanski
  */
 
-module dw.draw.gl.glDrawMesh;
+module dw.draw.gl.drawMesh;
 
 import c.gl.gl;
 import c.gl.glext;
 
 public import dw.draw.drawMesh;
-import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.drawDevice;
 import dw.resource.mesh;
 
 class GLDrawMesh : DrawMesh 
