@@ -20,12 +20,14 @@ class GLDrawWindow : DrawWindow
     public:
         this(uint w, uint h, string name)
         {
+            super(w,h,name);
             if(!glfwInitialized)
             {
                 glfwInit();
                 glfwInitialized = true;
             }
 
+            glfwSwapInterval(1); //vsync
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
             glfwWindowHint(GLFW_RESIZABLE, false);
@@ -46,6 +48,7 @@ class GLDrawWindow : DrawWindow
         override void swapBuffers()
         {
             glfwMakeContextCurrent(window);
+            //draw to current window?
             glfwSwapBuffers(window);
         }
 

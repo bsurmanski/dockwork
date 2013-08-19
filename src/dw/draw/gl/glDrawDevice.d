@@ -74,12 +74,22 @@ class GLDrawDevice : DrawDevice
         }
         */
 
+        override @property void framebuffer(Framebuffer fb)
+        {
+            super.framebuffer(fb);
+            if(!fb) { glBindFramebuffer(GL_FRAMEBUFFER, 0); return; }
+
+            GLFramebuffer glfb = cast(GLFramebuffer) fb; 
+            if(!glfb) { throw new Exception("Invalid framebuffer for current device");}
+            glBindFramebuffer(GL_FRAMEBUFFER, glfb.glID);
+        }
+
         /**
          * model
          */
         override void draw(Model model)
         {
-            Matrix4 vpMatrix = activeCamera().matrix(); 
+            Matrix4 vpMatrix = camera().matrix(); 
             foreach(part; model)
             {
                 Matrix4 mvpMatrix = part.matrix() * vpMatrix; 

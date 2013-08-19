@@ -11,6 +11,7 @@ SRC=\
 	src/dw/resource/format/resourceFileFormat.d\
 	src/dw/resource/format/mdlMeshFormat.d\
 	src/dw/audio/audioDevice.d\
+	src/dw/audio/dummy/audioDevice.d\
 	src/dw/draw/gl/glDrawWindow.d\
 	src/dw/draw/gl/glDrawDevice.d\
 	src/dw/draw/gl/glFramebuffer.d\
@@ -32,7 +33,10 @@ SRC=\
 	src/dw/draw/drawCamera.d\
 	src/dw/draw/drawDeviceFactory.d\
 	src/dw/input/inputDevice.d\
+	src/dw/input/dummy/inputDevice.d\
+	src/dw/input/glfw/inputDevice.d\
 	src/dw/script/scriptDevice.d\
+	src/dw/script/dummy/scriptDevice.d\
 	src/dw/world/entity.d\
 	src/dw/world/camera.d\
 	src/dw/world/scene.d\

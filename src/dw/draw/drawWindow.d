@@ -22,6 +22,13 @@ abstract class DrawWindow
         @property void name(string n) { _name = n; }
         @property string name() { return _name; }
 
+        this(uint w, uint h, string name)
+        {
+            _width = w;
+            _height = h;
+            _name = name;
+        }
+
         void swapBuffers();
         void clear();
 }

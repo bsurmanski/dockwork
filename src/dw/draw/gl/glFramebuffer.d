@@ -28,6 +28,9 @@ class GLFramebuffer : Framebuffer
             if(_dirty)
             {
                 uint colors = 0;
+                GLint currentFramebuffer;
+                glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &currentFramebuffer);
+
                 glBindFramebuffer(GL_FRAMEBUFFER, _framebuffer);
                 foreach(rtarget; renderTargets)
                 {
@@ -56,12 +59,14 @@ class GLFramebuffer : Framebuffer
                 }
                 GLint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
                 assert(status == GL_FRAMEBUFFER_COMPLETE);
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                glBindFramebuffer(GL_FRAMEBUFFER, currentFramebuffer);
             }
             _dirty = false;
         }
 
     public:
+        @property GLuint glID() { return _framebuffer; }
+
         this(uint w, uint h, 
                 DepthFormat dFormat = DepthFormat.DEPTH_24, 
                 StencilFormat sFormat = StencilFormat.STENCIL_8)

@@ -9,12 +9,13 @@ module testApplication;
 
 public import dw.system.application;
 import testDeviceFactory;
+import dw.input.glfw.glfwInputDevice;
 
 class TestApplication : Application
 {
     this()
     {
-        super(TestDeviceFactory.create(), null, null, null);
+        super(TestDeviceFactory.create(), null, new GlfwInputDevice(), null);
     }
 
     void run()
