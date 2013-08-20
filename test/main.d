@@ -1,6 +1,6 @@
 import std.stdio;
 
-import dw.draw.gl.glDrawDevice;
+import dw.draw.gl.drawDevice;
 import testDeviceFactory;
 import testApplication;
 

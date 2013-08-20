@@ -25,19 +25,55 @@ abstract class Application
         ScriptDevice _scriptDevice;
 
     public:
+
+    @property DrawDevice drawDevice() { return _drawDevice; }
+    @property void drawDevice(DrawDevice device)
+    {
+        if(!device)
+        {
+            device = new DummyDrawDevice();
+        }
+        _drawDevice = device;
+    }
+
+    @property AudioDevice audioDevice() { return _audioDevice; }
+    @property void audioDevice(AudioDevice device)
+    {
+        if(!device)
+        {
+            device = new DummyAudioDevice();
+        }
+        _audioDevice = device;
+    }
+
+    @property InputDevice inputDevice() { return _inputDevice; }
+    @property void inputDevice(InputDevice device) 
+    { 
+        if(!device) 
+        { 
+            device = new DummyInputDevice();
+        }
+        _inputDevice = device;
+    }
+
+    @property ScriptDevice scriptDevice() { return _scriptDevice; }
+    @property void scriptDevice(ScriptDevice device) 
+    { 
+        if(!device) 
+        { 
+            device = new DummyScriptDevice();
+        }
+        _scriptDevice = device;
+    }
+
     this(DrawDevice drawDevice, 
             AudioDevice audioDevice, 
             InputDevice inputDevice, 
             ScriptDevice scriptDevice)
     {
-        _drawDevice = drawDevice; 
-        _audioDevice = audioDevice;
-        _inputDevice = inputDevice;
-        _scriptDevice = scriptDevice;
-
-        if(!_drawDevice) { _drawDevice = new DummyDrawDevice(); }
-        if(!_audioDevice) { _audioDevice = new DummyAudioDevice(); }
-        if(!_inputDevice) { _inputDevice = new DummyInputDevice(); }
-        if(!_scriptDevice) { _scriptDevice = new DummyScriptDevice(); }
+        this.drawDevice(drawDevice); 
+        this.audioDevice(audioDevice);
+        this.inputDevice(inputDevice);
+        this.scriptDevice(scriptDevice);
     }
 }

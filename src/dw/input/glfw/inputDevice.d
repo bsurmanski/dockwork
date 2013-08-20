@@ -24,6 +24,12 @@ class GlfwInputDevice : InputDevice
         }
     }
 
+    override bool keyDown(uint key)
+    {
+        GLFWwindow *window = glfwGetCurrentContext();
+        return window && glfwGetKey(window, key) != 0;
+    }
+
     override void update(float dt)
     {
         glfwPollEvents();

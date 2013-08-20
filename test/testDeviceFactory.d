@@ -10,9 +10,9 @@ module testDeviceFactory;
 import std.conv;
 
 import dw.draw.drawDeviceFactory;
-import dw.draw.gl.glDrawDevice;
-import dw.draw.gl.glRenderTarget;
-import dw.draw.gl.glPixelFormat;
+import dw.draw.gl.drawDevice;
+import dw.draw.gl.renderTarget;
+import dw.draw.gl.pixelFormat;
 
 class TestDeviceFactory : DrawDeviceFactory
 {
@@ -21,7 +21,7 @@ class TestDeviceFactory : DrawDeviceFactory
     protected:
         static void addFramebuffer(ref DrawDevice device)
         {
-            device.activeFramebuffer = device.createFramebuffer(WIDTH, HEIGHT);
+            device.framebuffer = device.createFramebuffer(WIDTH, HEIGHT);
         }
 
         static void addRenderTargets(ref DrawDevice device)
@@ -35,9 +35,9 @@ class TestDeviceFactory : DrawDeviceFactory
             RenderTarget rt2 = device.createRenderTarget(WIDTH, 
                                                          HEIGHT, 
                                                          PixelFormat.RGBA8);
-            device.activeFramebuffer.bind(0, rt0);
-            device.activeFramebuffer.bind(1, rt1);
-            device.activeFramebuffer.bind(2, rt2);
+            device.framebuffer.bind(0, rt0);
+            device.framebuffer.bind(1, rt1);
+            device.framebuffer.bind(2, rt2);
         }
 
         static void addPrograms(ref DrawDevice device)

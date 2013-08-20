@@ -12,4 +12,5 @@ public import dw.input.inputDevice;
 class DummyInputDevice : InputDevice
 {
     override void update(float dt) {}
+    override bool keyDown(uint key) { return false; }
 }

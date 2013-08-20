@@ -32,6 +32,7 @@ class GLDrawWindow : DrawWindow
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
             glfwWindowHint(GLFW_RESIZABLE, false);
             window = glfwCreateWindow(w, h, name.toStringz(), null, null);
+            glfwMakeContextCurrent(window);
         }
 
         ~this()
