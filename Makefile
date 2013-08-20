@@ -24,7 +24,6 @@ SRC=\
 	src/dw/draw/texture.d\
 	src/dw/draw/renderTarget.d\
 	src/dw/draw/drawCamera.d\
-	src/dw/draw/drawDeviceFactory.d\
 	src/dw/draw/gl/drawWindow.d\
 	src/dw/draw/gl/drawDevice.d\
 	src/dw/draw/gl/framebuffer.d\
@@ -43,6 +42,8 @@ SRC=\
 	src/dw/world/scene.d\
 	src/dw/world/lamp.d\
 	src/dw/system/application.d\
+	src/dw/system/deviceFactory.d\
+	src/dw/system/dummy/deviceFactory.d\
 	#/usr/local/include/d/c/*.d
 
 INC=-I/usr/local/include/d\

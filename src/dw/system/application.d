@@ -7,6 +7,8 @@
 
 module dw.system.application;
 
+import dw.system.deviceFactory;
+
 import dw.audio.audioDevice;
 import dw.audio.dummy.audioDevice;
 import dw.draw.drawDevice;
@@ -75,5 +77,13 @@ abstract class Application
         this.audioDevice(audioDevice);
         this.inputDevice(inputDevice);
         this.scriptDevice(scriptDevice);
+    }
+
+    this(DeviceFactory factory)
+    {
+        drawDevice(factory.createDrawDevice()); 
+        audioDevice(factory.createAudioDevice());
+        inputDevice(factory.createInputDevice());
+        scriptDevice(factory.createScriptDevice());
     }
 }

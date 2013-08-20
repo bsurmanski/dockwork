@@ -70,7 +70,7 @@ abstract class Framebuffer
 
         void bind(uint attachment, RenderTarget target)
         {
-            if(_rtargets.length < attachment)
+            if(_rtargets.length <= attachment)
             {
                 _rtargets.length = attachment + 1;
             }

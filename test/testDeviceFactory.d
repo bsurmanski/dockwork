@@ -9,16 +9,22 @@ module testDeviceFactory;
 
 import std.conv;
 
-import dw.draw.drawDeviceFactory;
+import dw.system.deviceFactory;
 import dw.draw.gl.drawDevice;
 import dw.draw.gl.renderTarget;
 import dw.draw.gl.pixelFormat;
 
-class TestDeviceFactory : DrawDeviceFactory
+import dw.audio.audioDevice;
+import dw.input.glfw.inputDevice;
+import dw.script.scriptDevice;
+
+class TestDeviceFactory : DeviceFactory
 {
     static WIDTH = 640;
     static HEIGHT = 480;
     protected:
+    static TestDeviceFactory _instance;
+
         static void addFramebuffer(ref DrawDevice device)
         {
             device.framebuffer = device.createFramebuffer(WIDTH, HEIGHT);
@@ -43,5 +49,39 @@ class TestDeviceFactory : DrawDeviceFactory
         static void addPrograms(ref DrawDevice device)
         {
         
+        }
+
+    public:
+        static TestDeviceFactory instance()
+        {
+            if(!_instance)
+            {
+                _instance = new TestDeviceFactory();
+            }
+            return _instance;
+        }
+
+        override DrawDevice createDrawDevice()
+        {
+            DrawDevice device = new GLDrawDevice(); 
+            addFramebuffer(device);
+            addRenderTargets(device);
+            addPrograms(device);
+            return device;
+        }
+
+        override AudioDevice createAudioDevice()
+        {
+            return null;
+        }
+
+        override InputDevice createInputDevice()
+        {
+            return new GlfwInputDevice();
+        }
+
+        override ScriptDevice createScriptDevice()
+        {
+            return null;
         }
 }

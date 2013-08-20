@@ -18,7 +18,7 @@ class TestApplication : Application
     GLDrawWindow window;
     this()
     {
-        super(TestDeviceFactory.create(), null, new GlfwInputDevice(), null);
+        super(TestDeviceFactory.instance);
         window = new GLDrawWindow(640, 480, "test");
     }
 
