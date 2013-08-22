@@ -21,17 +21,27 @@ import dw.draw.drawDevice;
 import dw.draw.drawLamp;
 import dw.draw.pixelFormat;
 import dw.draw.model;
+import dw.draw.gl.drawProgram;
+import dw.draw.gl.drawWindow;
 import dw.draw.gl.framebuffer;
 import dw.draw.gl.renderTarget;
 import dw.draw.gl.texture;
 import dw.draw.gl.drawMesh;
 import dw.resource.image;
+import dw.resource.mesh;
 
 class GLDrawDevice : DrawDevice
 {
     protected:
+        static Vertex FSQUAD_VERTS[4] = [
+                    {[-1,-1,0],[0,0,short.max],[0,0],0},
+                    {[ 1,-1,0],[0,0,short.max],[1,0],0},
+                    {[ 1, 1,0],[0,0,short.max],[1,1],0},
+                    {[-1, 1,0],[0,0,short.max],[0,1],0}];
+        static Face FSQUAD_FACES[2] = [{[0,1,2]}, {[0,2,3]}];
 
         GLDrawMesh _fsQuad; //Fullscreen quad TODO
+        GLDrawProgram _meshProgram;
 
     public:
 
@@ -65,6 +75,10 @@ class GLDrawDevice : DrawDevice
                     GL_COLOR_ATTACHMENT15,
                 ];
             glDrawBuffers(16, glBuffers.ptr);
+
+            scope Mesh FSMESH = new Mesh(FSQUAD_VERTS, FSQUAD_FACES);
+            _fsQuad = new GLDrawMesh(FSMESH);
+            //_meshProgram = 
         }
 
         /*
@@ -92,7 +106,7 @@ class GLDrawDevice : DrawDevice
             Matrix4 vpMatrix = camera().matrix(); 
             foreach(part; model)
             {
-                Matrix4 mvpMatrix = part.matrix() * vpMatrix; 
+                Matrix4 mvpMatrix = part.matrix() * vpMatrix;
                 //program bind textures
                 //program bind uniforms
                 //program bind buffers/vao
@@ -117,6 +131,20 @@ class GLDrawDevice : DrawDevice
             //TODO: bind fullscreen quad
             //TODO: draw command
             //TODO: unbind all
+        }
+
+        /**
+         * Window
+         */
+        override DrawWindow createWindow(uint w, uint h, string name)
+        {
+            return new GLDrawWindow(w, h, name);
+        }
+
+        override void applyTo(DrawWindow window)
+        {
+            //TODO: commit to window
+            window.swapBuffers(); 
         }
 
         /**

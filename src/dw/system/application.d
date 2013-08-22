@@ -86,4 +86,6 @@ abstract class Application
         inputDevice(factory.createInputDevice());
         scriptDevice(factory.createScriptDevice());
     }
+
+    void run(){}
 }

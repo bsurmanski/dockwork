@@ -21,6 +21,7 @@ SRC=\
 	src/dw/draw/drawLamp.d\
 	src/dw/draw/drawDevice.d\
 	src/dw/draw/drawProgram.d\
+	src/dw/draw/drawShader.d\
 	src/dw/draw/texture.d\
 	src/dw/draw/renderTarget.d\
 	src/dw/draw/drawCamera.d\
@@ -31,6 +32,8 @@ SRC=\
 	src/dw/draw/gl/renderTarget.d\
 	src/dw/draw/gl/pixelFormat.d\
 	src/dw/draw/gl/drawMesh.d\
+	src/dw/draw/gl/drawProgram.d\
+	src/dw/draw/gl/drawShader.d\
 	src/dw/draw/dummy/drawDevice.d\
 	src/dw/input/inputDevice.d\
 	src/dw/input/dummy/inputDevice.d\

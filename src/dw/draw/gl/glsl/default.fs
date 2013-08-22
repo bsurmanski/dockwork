@@ -2,7 +2,7 @@
 #extension GL_ARB_uniform_buffer_object : enable
 #extension GL_ARB_explicit_attrib_location : require
 
-uniform sampler2D tex0; 
+uniform sampler2D tex0;
 
 smooth in vec4 fPosition;
 smooth in vec3 fNormal;

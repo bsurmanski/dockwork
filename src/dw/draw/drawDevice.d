@@ -7,6 +7,7 @@
 
 module dw.draw.drawDevice;
 
+import dw.draw.drawWindow;
 import dw.draw.model;
 import dw.draw.drawLamp;
 import dw.draw.framebuffer;
@@ -29,14 +30,8 @@ abstract class DrawDevice
         Matrix4 _pMatrix;
         Vec4 _ambient;
         DrawCamera _camera;
-        Framebuffer _framebuffer;
-
-        //TODO: all these programs?
-        DrawProgram _modelProgram;
-        DrawProgram _ambientLightProgram;
-        DrawProgram _sunLightProgram;
-        DrawProgram _spotLightProgram;
-        DrawProgram _pointLightProgram;
+        Framebuffer _framebuffer; //active framebuffer
+        DrawProgram _program; // active program
 
     public:
 
@@ -55,27 +50,30 @@ abstract class DrawDevice
             _instance = this;
         }
 
-        @property
-        void camera(DrawCamera cam)
-        {
-            _camera = cam; 
-        }
-
+        @property void camera(DrawCamera cam){ _camera = cam; }
         @property DrawCamera camera() { return _camera; }
 
         @property void framebuffer(Framebuffer fb) { _framebuffer = fb; }
         @property Framebuffer framebuffer() { return _framebuffer; }
 
+        @property void program(DrawProgram prog) { _program = prog; }
+        @property DrawProgram program() { return _program; }
+
         /**
          * Model
          */
-
         void draw(Model model);
 
         /**
          * lighting
          */
         void apply(DrawLamp lamp);
+
+        /**
+         * Window
+         */
+        DrawWindow createWindow(uint w, uint h, string name);
+        void applyTo(DrawWindow window);
 
         /**
          * Texture

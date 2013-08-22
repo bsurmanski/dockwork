@@ -15,14 +15,14 @@ import dw.draw.gl.drawWindow;
 
 class TestApplication : Application
 {
-    GLDrawWindow window;
+    DrawWindow window;
     this()
     {
         super(TestDeviceFactory.instance);
-        window = new GLDrawWindow(640, 480, "test");
+        window = drawDevice.createWindow(640, 480, "test");
     }
 
-    void run()
+    override void run()
     {
         while(!inputDevice.keyDown('A'))
         {

@@ -8,6 +8,7 @@
 module dw.draw.dummy.drawDevice;
 
 public import dw.draw.drawDevice;
+import dw.draw.drawWindow;
 import dw.draw.framebuffer;
 import dw.draw.renderTarget;
 import dw.draw.model;
@@ -24,6 +25,9 @@ class DummyDrawDevice : DrawDevice
     override void apply(DrawLamp lamp){}
     override Texture createTexture(uint w, uint h, PixelFormat pFormat){return null;}
     override Texture createTexture(Image image){return null;}
+
+    override DrawWindow createWindow(uint w, uint h, string name) { return null; }
+    override void applyTo(DrawWindow window){}
 
     override Framebuffer createFramebuffer(uint w, uint h, 
             DepthFormat dFormat, 

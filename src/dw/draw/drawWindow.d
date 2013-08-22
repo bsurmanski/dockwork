@@ -12,6 +12,7 @@ abstract class DrawWindow
     private:
         uint _width;
         uint _height;
+        bool _hidden;
         string _name;
 
     public:
@@ -22,6 +23,9 @@ abstract class DrawWindow
         @property void name(string n) { _name = n; }
         @property string name() { return _name; }
 
+        @property void hidden(bool h) { _hidden = h; }
+        @property bool hidden() { return _hidden; }
+
         this(uint w, uint h, string name)
         {
             _width = w;
@@ -29,6 +33,7 @@ abstract class DrawWindow
             _name = name;
         }
 
+        void focus();
         void swapBuffers();
         void clear();
 }

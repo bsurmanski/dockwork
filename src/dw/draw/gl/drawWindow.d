@@ -46,6 +46,23 @@ class GLDrawWindow : DrawWindow
             glfwSetWindowTitle(window, name.toStringz());
         }
 
+        @property override void hidden(bool h)
+        {
+            super.hidden(h);
+            if(h)
+            {
+                glfwHideWindow(window);
+            } else
+            {
+                glfwShowWindow(window);
+            }
+        }
+
+        override void focus()
+        {
+            glfwMakeContextCurrent(window);
+        }
+
         override void swapBuffers()
         {
             glfwMakeContextCurrent(window);
@@ -56,6 +73,6 @@ class GLDrawWindow : DrawWindow
         override void clear()
         {
             glfwMakeContextCurrent(window);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         }
 }
