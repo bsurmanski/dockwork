@@ -1,5 +1,5 @@
 /**
- * resourceCache.d
+ * resource.d
  * dockwork
  * July 31, 2013
  * Brandon Surmanski
@@ -15,40 +15,17 @@ import dw.resource.resourceType;
 
 class ResourceCache
 {
-    private:
-        struct CacheEntry
-        {
-            Resource resource;      
-            string name;
-            string source;
-            uint sourceOffset;
-            uint refs;
-            bool loaded;
-            bool pinned;
-
-            this(string name, string filenm, uint offset = 0)
-            {
-                this.resource = null;
-                this.name = name;
-                this.source = filenm;
-                this.sourceOffset = offset;
-                this.refs = 0;
-                this.loaded = false;
-                this.pinned = false;
-            }
-        }
-
     protected:
         ResourceType _type;
-        CacheEntry[string] _cache;
+        ResourceDesc[string] _cache;
         uint _memLimit;
         uint _memUsage;
 
-        Resource get(CacheEntry *entry)
+        Resource get(ResourceDesc *entry)
         {
             if(!entry.loaded)
             {
-                entry.resource = _type.read(entry.source, entry.sourceOffset); 
+                entry.resource = _type.read(entry.source, entry.sourceOffset);
                 entry.loaded = true;
             }
 
@@ -56,9 +33,9 @@ class ResourceCache
             return entry.resource;
         }
 
-        void register(CacheEntry entry)
+        void register(ResourceDesc entry)
         {
-            _cache[entry.name] = entry; 
+            _cache[entry.name] = entry;
         }
 
     public:
@@ -71,7 +48,7 @@ class ResourceCache
 
         Resource get(string name)
         {
-            CacheEntry entry = _cache[name]; 
+            ResourceDesc entry = _cache[name];
 
             return get(&entry);
         }
@@ -83,14 +60,14 @@ class ResourceCache
                 throw new Exception("Cache collision");
             }
 
-            CacheEntry newEntry = CacheEntry(name, filenm, offset);
+            ResourceDesc newEntry = ResourceDesc(name, filenm, offset);
             register(newEntry);
             return get(&newEntry);
         }
 
         void unload(string name)
         {
-            CacheEntry *entry = name in _cache;
+            ResourceDesc *entry = name in _cache;
             if(entry)
             {
                 if(entry.refs == 0 && !entry.pinned) // safe to unload
@@ -117,13 +94,13 @@ class ResourceCache
 
         void register(string name, string filenm, uint offset = 0)
         {
-            CacheEntry newEntry = CacheEntry(name, filenm, offset);
+            ResourceDesc newEntry = ResourceDesc(name, filenm, offset);
             register(newEntry);
         }
 
         void deregister(string name)
         {
-            CacheEntry *entry = name in _cache;
+            ResourceDesc *entry = name in _cache;
             if(entry)
             {
                 //TODO confirm ref count
@@ -145,7 +122,7 @@ class ResourceCache
 
         void limit(uint memLimit)
         {
-            _memLimit = memLimit; 
+            _memLimit = memLimit;
             if(_memUsage > _memLimit)
             {
                 flush();

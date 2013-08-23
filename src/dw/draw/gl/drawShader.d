@@ -26,14 +26,7 @@ class GLDrawShader : DrawShader
         ShaderStage _stage;
         string _source;
 
-        static GLuint[ShaderStage] glShaderStages; 
-
-        static this()
-        {
-              glShaderStages = [ShaderStage.VERTEX : GL_VERTEX_SHADER,
-                                ShaderStage.FRAGMENT : GL_FRAGMENT_SHADER,
-                                ShaderStage.GEOMETRY : GL_GEOMETRY_SHADER];
-        }
+        static GLuint[3] glShaderStages = [GL_GEOMETRY_SHADER, GL_VERTEX_SHADER, GL_FRAGMENT_SHADER]; 
 
         void compile()
         {
@@ -43,11 +36,13 @@ class GLDrawShader : DrawShader
 
             GLint cstatus;
             glGetShaderiv(_shader, GL_COMPILE_STATUS, &cstatus);
+            writeln("ERROR:", glGetError(), " CSTAT:", cstatus);
 
-            if(cstatus != GL_TRUE)
+            if(cstatus == GL_FALSE)
             {
                 int bufsz = 512;
                 scope char[] buf = new char[bufsz];
+                buf[] = 0;
                 glGetShaderInfoLog(_shader, bufsz, null, buf.ptr);
                 throw new ShaderCompileException(to!string(buf));
             }
@@ -88,8 +83,16 @@ class GLDrawShader : DrawShader
 
         this(ShaderStage stage, string filenm)
         {
+            /*
             File file = File(filenm, "r"); 
             this(stage, file);
             file.close();
+            */
+            super(GLDrawDevice.instance);
+            _stage = stage;
+            GLuint glStage = glShaderStages[stage];
+            _shader = glCreateShader(glStage);
+            _source = filenm;
+            clean();
         }
 }

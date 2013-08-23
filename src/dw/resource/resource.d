@@ -1,62 +1,64 @@
 /**
  * resource.d
  * dockwork
- * July 20, 2013
+ * August 22, 2013
  * Brandon Surmanski
  */
 
 module dw.resource.resource;
 
-import std.stdio;
+import dw.resource.resourceCache;
+import dw.resource.resourceType;
+
+struct ResourceDesc
+{
+    Resource resource;
+    ResourceType type;
+    string name;
+    string source;
+    uint sourceOffset;
+    uint refs;
+    bool loaded;
+    bool pinned;
+
+    this(string name, string filenm, uint offset = 0)
+    {
+        this.resource = null;
+        this.name = name;
+        this.source = filenm;
+        this.sourceOffset = offset;
+        this.refs = 0;
+        this.loaded = false;
+        this.pinned = false;
+    }
+}
 
 abstract class Resource
 {
     private:
-        size_t _sourceOffset = 0; //if in nested file
-        string _source = null;
-        string _name = "";
-        bool _loaded = false;
+        ResourceDesc *_cacheEntry;
 
     protected:
-
-        this(File f, string name = "")
+        this()
         {
-            _source = f.name;
-            _sourceOffset = f.tell();
-            _name = name;
-            load(f); 
-            _loaded = true;
-        }
-
-        this(){}
-
-        this(string source, size_t offset, string name = "")
-        {
-            _source = source;
-            _sourceOffset = offset;
-            _name = name;
+            _cacheEntry = null;
         }
 
     public:
-        @property string name() { return _name; }
-        @property void name(string name) { _name = name; }
+        @property size_t dataSize();
+        @property string name() { return _cacheEntry.name; }
+        @property string source() { return _cacheEntry.source; }
+        @property uint sourceOffset() { return _cacheEntry.sourceOffset; }
+        @property uint referenceCount() { return _cacheEntry.refs; }
+        @property void descriptor(ResourceDesc *entry) {_cacheEntry = entry; }
 
-        @property string source() { return _source; }
-        @property void source(string source) { _source = source; }
-
-        @property size_t sourceOffset() { return _sourceOffset; }
-        @property void sourceOffset(size_t so) { _sourceOffset = so; }
-
-        @property bool loaded() { return _loaded; }
-
-        //XXX Must override
-        void load(File file){}
-
-        void load()
+        void retain()
         {
-            File f = File(_source, "r");
-            f.seek(_sourceOffset);
-            load(f);
-            f.close();
+            _cacheEntry.refs++;
+        }
+
+        void release()
+        {
+            _cacheEntry.refs--;
         }
 }

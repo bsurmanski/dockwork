@@ -7,7 +7,6 @@
 
 module dw.draw.drawDevice;
 
-import dw.draw.drawWindow;
 import dw.draw.model;
 import dw.draw.drawLamp;
 import dw.draw.framebuffer;
@@ -68,12 +67,6 @@ abstract class DrawDevice
          * lighting
          */
         void apply(DrawLamp lamp);
-
-        /**
-         * Window
-         */
-        DrawWindow createWindow(uint w, uint h, string name);
-        void applyTo(DrawWindow window);
 
         /**
          * Texture

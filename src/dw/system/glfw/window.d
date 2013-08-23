@@ -1,21 +1,20 @@
 /**
- * glDrawWindow.d
+ * window.d
  * dockwork
  * August 18, 2013
  * Brandon Surmanski
  */
 
-module dw.draw.gl.drawWindow;
+module dw.system.glfw.window;
 
 import c.glfw.glfw;
 import std.string;
-public import dw.draw.drawWindow;
+public import dw.system.window;
 
-class GLDrawWindow : DrawWindow
+class GlfwWindow : Window
 {
     private:
         static bool glfwInitialized = false;
-        static GLFWwindow *current;
         GLFWwindow *window;
     public:
         this(uint w, uint h, string name)

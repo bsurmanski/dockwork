@@ -10,6 +10,6 @@ smooth out vec4 color;
 
 void main()
 {
-    gl_Position = position;
+    gl_Position = vec4(position, 1.0f);
     color = vec4(uv, 1.0f, 1.0f);
 }

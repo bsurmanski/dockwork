@@ -107,6 +107,8 @@ class Mesh : Resource, MeshType
     Vertex _verts[];
     Face _faces[];
 
+    override @property size_t dataSize() { return 0; } //TODO
+
 
     public:
 

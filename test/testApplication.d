@@ -11,15 +11,15 @@ public import dw.system.application;
 import testDeviceFactory;
 import dw.input.glfw.inputDevice;
 
-import dw.draw.gl.drawWindow;
+import dw.system.glfw.window;
 
 class TestApplication : Application
 {
-    DrawWindow window;
+    GlfwWindow window;
     this()
     {
+        window = new GlfwWindow(640, 480, "");
         super(TestDeviceFactory.instance);
-        window = drawDevice.createWindow(640, 480, "test");
     }
 
     override void run()

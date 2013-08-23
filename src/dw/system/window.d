@@ -1,13 +1,13 @@
 /**
- * drawWindow.d
+ * window.d
  * dockwork
  * August 18, 2013
  * Brandon Surmanski
  */
 
-module dw.draw.drawWindow;
+module dw.system.window;
 
-abstract class DrawWindow
+abstract class Window
 {
     private:
         uint _width;

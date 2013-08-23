@@ -22,7 +22,6 @@ import dw.draw.drawLamp;
 import dw.draw.pixelFormat;
 import dw.draw.model;
 import dw.draw.gl.drawProgram;
-import dw.draw.gl.drawWindow;
 import dw.draw.gl.framebuffer;
 import dw.draw.gl.renderTarget;
 import dw.draw.gl.texture;
@@ -42,11 +41,14 @@ class GLDrawDevice : DrawDevice
 
         GLDrawMesh _fsQuad; //Fullscreen quad TODO
         GLDrawProgram _meshProgram;
+        string TESTVS = import("dw/draw/gl/glsl/test.vs");
+        string TESTFS = import("dw/draw/gl/glsl/test.fs");
 
     public:
 
         this()
         {
+            super();
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glEnable(GL_BLEND);
             glEnable(GL_CULL_FACE);
@@ -78,6 +80,7 @@ class GLDrawDevice : DrawDevice
 
             scope Mesh FSMESH = new Mesh(FSQUAD_VERTS, FSQUAD_FACES);
             _fsQuad = new GLDrawMesh(FSMESH);
+            _meshProgram = new GLDrawProgram(TESTVS, TESTFS);
             //_meshProgram = 
         }
 
@@ -131,20 +134,6 @@ class GLDrawDevice : DrawDevice
             //TODO: bind fullscreen quad
             //TODO: draw command
             //TODO: unbind all
-        }
-
-        /**
-         * Window
-         */
-        override DrawWindow createWindow(uint w, uint h, string name)
-        {
-            return new GLDrawWindow(w, h, name);
-        }
-
-        override void applyTo(DrawWindow window)
-        {
-            //TODO: commit to window
-            window.swapBuffers(); 
         }
 
         /**
