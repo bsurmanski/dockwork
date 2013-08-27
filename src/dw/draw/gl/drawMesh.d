@@ -16,9 +16,16 @@ import dw.resource.mesh;
 
 class GLDrawMesh : DrawMesh 
 {
-    GLuint _ibuffer; // index buffer
-    GLuint _vbuffer; // vertex buffer
-    GLuint _vao;
+    private:
+        GLuint _ibuffer; // index buffer
+        GLuint _vbuffer; // vertex buffer
+        GLuint _vao;
+
+    public:
+
+    @property GLuint vao() { return _vao; }
+    @property GLuint ibuffer() { return _ibuffer; }
+    @property GLuint vbuffer() { return _vbuffer; }
 
     this(MeshType mesh)
     {
@@ -38,15 +45,11 @@ class GLDrawMesh : DrawMesh
                      GL_STATIC_DRAW);
 
         // vertex buffer
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, 
+        glBufferData(GL_ARRAY_BUFFER, 
                      mesh.vertSize,
                      mesh.vertPtr,
                      GL_STATIC_DRAW);
 
-        //TODO: set vertex attributes for VAO
-        //glGetAttribLocation
-        //glEnableVertexAttribArray
-        //glVertexAttribPointer
         glBindVertexArray(0);
     }
 

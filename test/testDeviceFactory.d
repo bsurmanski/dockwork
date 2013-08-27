@@ -64,9 +64,9 @@ class TestDeviceFactory : DeviceFactory
         override DrawDevice createDrawDevice()
         {
             DrawDevice device = new GLDrawDevice(); 
-            addFramebuffer(device);
-            addRenderTargets(device);
-            addPrograms(device);
+            //addFramebuffer(device);
+            //addRenderTargets(device);
+            //addPrograms(device);
             return device;
         }
 

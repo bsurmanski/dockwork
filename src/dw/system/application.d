@@ -9,13 +9,13 @@ module dw.system.application;
 
 import dw.system.deviceFactory;
 
-import dw.audio.audioDevice;
-import dw.audio.dummy.audioDevice;
 import dw.draw.drawDevice;
-import dw.draw.dummy.drawDevice;
+import dw.audio.audioDevice;
 import dw.input.inputDevice;
-import dw.input.dummy.inputDevice;
 import dw.script.scriptDevice;
+import dw.draw.dummy.drawDevice;
+import dw.audio.dummy.audioDevice;
+import dw.input.dummy.inputDevice;
 import dw.script.dummy.scriptDevice;
 
 abstract class Application 

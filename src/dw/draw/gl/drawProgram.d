@@ -26,18 +26,23 @@ class GLDrawProgram : DrawProgram
 
         void clean()
         {
-            foreach(shader; _shaders)
+            if(_dirty)
             {
-                if(shader)
+                foreach(shader; _shaders)
                 {
-                    glAttachShader(_program, (cast(GLDrawShader)shader).shaderId); 
+                    if(shader)
+                    {
+                        glAttachShader(_program, (cast(GLDrawShader)shader).shaderId); 
+                    }
                 }
+                glLinkProgram(_program);
+                _dirty = false;
             }
-            glLinkProgram(_program);
-            _dirty = false;
         }
 
     public:
+        @property GLuint glID() { clean(); return _program; }
+
         void setStage(ShaderStage stage, GLDrawShader shader)
         {
             if(_shaders[stage])

@@ -26,7 +26,10 @@ class TestApplication : Application
     {
         while(!inputDevice.keyDown('A'))
         {
+            window.clear();
             inputDevice.update(0);
+            drawDevice.draw(null);
+            window.swapBuffers();
         }
     }
 }

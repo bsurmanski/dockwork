@@ -34,9 +34,9 @@ class GLDrawDevice : DrawDevice
     protected:
         static Vertex FSQUAD_VERTS[4] = [
                     {[-1,-1,0],[0,0,short.max],[0,0],0},
-                    {[ 1,-1,0],[0,0,short.max],[1,0],0},
-                    {[ 1, 1,0],[0,0,short.max],[1,1],0},
-                    {[-1, 1,0],[0,0,short.max],[0,1],0}];
+                    {[ 1,-1,0],[0,0,short.max],[ushort.max,0],0},
+                    {[ 1, 1,0],[0,0,short.max],[ushort.max,ushort.max],0},
+                    {[-1, 1,0],[0,0,short.max],[0,ushort.max],0}];
         static Face FSQUAD_FACES[2] = [{[0,1,2]}, {[0,2,3]}];
 
         GLDrawMesh _fsQuad; //Fullscreen quad TODO
@@ -50,13 +50,17 @@ class GLDrawDevice : DrawDevice
         {
             super();
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-            glEnable(GL_BLEND);
-            glEnable(GL_CULL_FACE);
-            glEnable(GL_DEPTH_TEST);
+            glDisable(GL_BLEND);
+            glDisable(GL_CULL_FACE);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_SCISSOR_TEST);
             glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
             glDepthFunc(GL_LEQUAL);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+            /*
+            GLint maxDrawBuffers;
+            glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
             uint[] glBuffers = 
                 [
                     GL_COLOR_ATTACHMENT0,
@@ -76,12 +80,12 @@ class GLDrawDevice : DrawDevice
                     GL_COLOR_ATTACHMENT14,
                     GL_COLOR_ATTACHMENT15,
                 ];
-            glDrawBuffers(16, glBuffers.ptr);
+            glDrawBuffers(maxDrawBuffers, glBuffers.ptr);
+            */
 
             scope Mesh FSMESH = new Mesh(FSQUAD_VERTS, FSQUAD_FACES);
             _fsQuad = new GLDrawMesh(FSMESH);
             _meshProgram = new GLDrawProgram(TESTVS, TESTFS);
-            //_meshProgram = 
         }
 
         /*
@@ -106,15 +110,37 @@ class GLDrawDevice : DrawDevice
          */
         override void draw(Model model)
         {
-            Matrix4 vpMatrix = camera().matrix(); 
-            foreach(part; model)
+            //Matrix4 vpMatrix = camera().matrix(); 
+            //foreach(part; model)
             {
-                Matrix4 mvpMatrix = part.matrix() * vpMatrix;
+                //Matrix4 mvpMatrix = part.matrix() * vpMatrix;
                 //program bind textures
                 //program bind uniforms
                 //program bind buffers/vao
                 //TODO: program.draw
             }
+            GLuint query;
+            glGenQueries(1, &query);
+            glBeginQuery(GL_PRIMITIVES_GENERATED, query);
+
+            //XXX TMP
+            glUseProgram(_meshProgram.glID);
+            glBindVertexArray(_fsQuad.vao);
+            GLuint pos_uint = glGetAttribLocation(_meshProgram.glID, "position");
+            GLuint uv_uint = glGetAttribLocation(_meshProgram.glID, "uv");
+            glEnableVertexAttribArray(pos_uint);
+            glEnableVertexAttribArray(uv_uint);
+            glVertexAttribPointer(pos_uint, 3, GL_FLOAT, GL_FALSE, 
+                    Vertex.sizeof, cast(void*)0);
+            glVertexAttribPointer(uv_uint, 2, GL_UNSIGNED_SHORT, GL_TRUE, 
+                    Vertex.sizeof, cast(void*)18);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, null);
+
+            glEndQuery(GL_PRIMITIVES_GENERATED);
+            int nprims;
+            glGetQueryObjectiv(query, GL_QUERY_RESULT, &nprims);
+            import std.stdio;
+            writeln("PRIMS ", nprims);
         }
 
         /**

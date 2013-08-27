@@ -64,7 +64,7 @@ class GlfwWindow : Window
 
         override void swapBuffers()
         {
-            glfwMakeContextCurrent(window);
+            //glfwMakeContextCurrent(window);
             //draw to current window?
             glfwSwapBuffers(window);
         }

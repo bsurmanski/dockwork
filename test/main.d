@@ -8,5 +8,4 @@ void main()
 {
     TestApplication app = new TestApplication();
     app.run();
-    writeln("test");
 }
