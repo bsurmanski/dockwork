@@ -9,6 +9,7 @@ module dw.draw.drawDevice;
 
 import dw.draw.model;
 import dw.draw.drawLamp;
+import dw.draw.drawMesh;
 import dw.draw.framebuffer;
 import dw.draw.renderTarget;
 import dw.draw.pixelFormat;
@@ -18,12 +19,11 @@ import dw.draw.drawProgram;
 import dw.math.matrix;
 import dw.math.vector;
 import dw.resource.image;
+import dw.resource.mesh;
 
 abstract class DrawDevice
 {
     private:
-        static DrawDevice _instance = null;
-
         Matrix4 _mMatrix; 
         Matrix4 _vMatrix; //TODO: just use camera v/p matrix instead
         Matrix4 _pMatrix;
@@ -33,22 +33,6 @@ abstract class DrawDevice
         DrawProgram _program; // active program
 
     public:
-
-        static DrawDevice instance() 
-        { 
-            if(!_instance)
-            { 
-                throw new Exception("DrawDevice not initialized");
-            }
-
-            return _instance; 
-        }
-
-        this()
-        {
-            _instance = this;
-        }
-
         @property void camera(DrawCamera cam){ _camera = cam; }
         @property DrawCamera camera() { return _camera; }
 
@@ -57,6 +41,12 @@ abstract class DrawDevice
 
         @property void program(DrawProgram prog) { _program = prog; }
         @property DrawProgram program() { return _program; }
+
+        /**
+         * DrawMesh
+         */
+
+        DrawMesh createDrawMesh(Mesh mesh);
 
         /**
          * Model

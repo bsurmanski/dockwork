@@ -21,7 +21,7 @@ abstract class Framebuffer
         RenderTarget _rtargets[];
         DrawDevice _device;
 
-    protected:
+    public:
 
         @property RenderTarget[] renderTargets() { return _rtargets; }
 
@@ -40,7 +40,6 @@ abstract class Framebuffer
             return stencil != StencilFormat.STENCIL_0;
         }
 
-    public:
         this(DrawDevice device, uint w, uint h, 
             DepthFormat dFormat = DepthFormat.DEPTH_24, 
             StencilFormat sFormat = StencilFormat.STENCIL_8)

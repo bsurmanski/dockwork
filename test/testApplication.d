@@ -18,7 +18,7 @@ class TestApplication : Application
     GlfwWindow window;
     this()
     {
-        window = new GlfwWindow(640, 480, "");
+        window = new GlfwWindow(640, 480, "Testing");
         super(TestDeviceFactory.instance);
     }
 

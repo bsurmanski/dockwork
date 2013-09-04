@@ -67,11 +67,12 @@ class GLFramebuffer : Framebuffer
     public:
         @property GLuint glID() { return _framebuffer; }
 
-        this(uint w, uint h, 
+        this(DrawDevice device, uint w, uint h, 
                 DepthFormat dFormat = DepthFormat.DEPTH_24, 
                 StencilFormat sFormat = StencilFormat.STENCIL_8)
         {
-            super(GLDrawDevice.instance, w, h, dFormat, sFormat);
+            assert(cast(GLDrawDevice) device);
+            super(device, w, h, dFormat, sFormat);
             glGenFramebuffers(1, &_framebuffer);
         }
 }

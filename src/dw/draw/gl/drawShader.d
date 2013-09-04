@@ -36,7 +36,6 @@ class GLDrawShader : DrawShader
 
             GLint cstatus;
             glGetShaderiv(_shader, GL_COMPILE_STATUS, &cstatus);
-            writeln("ERROR:", glGetError(), " CSTAT:", cstatus);
 
             if(cstatus == GL_FALSE)
             {
@@ -66,9 +65,9 @@ class GLDrawShader : DrawShader
             return _shader;
         }
 
-        this(ShaderStage stage, File file, size_t sz = 0)
+        this(DrawDevice device, ShaderStage stage, File file, size_t sz = 0)
         {
-            super(GLDrawDevice.instance);
+            super(device);
             _stage = stage;
             _shader = glCreateShader(glShaderStages[_stage]);
             if(sz == 0)
@@ -81,18 +80,13 @@ class GLDrawShader : DrawShader
             clean();
         }
 
-        this(ShaderStage stage, string filenm)
+        this(DrawDevice device, ShaderStage stage, string source)
         {
-            /*
-            File file = File(filenm, "r"); 
-            this(stage, file);
-            file.close();
-            */
-            super(GLDrawDevice.instance);
+            super(device);
             _stage = stage;
             GLuint glStage = glShaderStages[stage];
             _shader = glCreateShader(glStage);
-            _source = filenm;
+            _source = source;
             clean();
         }
 }

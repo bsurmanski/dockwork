@@ -12,6 +12,7 @@ import c.gl.gl;
 public import dw.draw.texture;
 
 import dw.draw.gl.drawDevice;
+import dw.draw.gl.renderTarget;
 import dw.draw.pixelFormat;
 import dw.resource.image;
 
@@ -23,6 +24,7 @@ class GLTexture : Texture
         GLuint _texture;
         GLuint _target = GL_TEXTURE_2D; //TODO variable target?
         GLuint _internalFormat;
+        GLRenderTarget _renderTarget;
 
     protected:
 
@@ -40,43 +42,58 @@ class GLTexture : Texture
     public:
 
     @property GLuint textureId() { return _texture; }
-
-    this(Image image)
+    @property GLRenderTarget renderTarget()
     {
-        super(GLDrawDevice.instance, image.width, image.height); 
+        if(!_renderTarget)
+        {
+            _renderTarget = new GLRenderTarget(this);
+        }
+        return _renderTarget;
+    }
+
+    this(DrawDevice device, Image image)
+    {
+        super(device, image.width, image.height); 
+        glGenTextures(1, &_texture);
+        glBindTexture(_target, _texture);
+        glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(_target, 0, 
+                GL_RGBA, image.width, image.height, //TODO: RGBA?
+                0, GL_UNSIGNED_BYTE, GL_RGBA, image.pixels.ptr);
         //TODO upload image data
     }
 
-    this(uint w, uint h, 
+    this(DrawDevice device, uint w, uint h, 
                 PixelFormat pFormat)
     {
         _internalFormat = getInternalFormat(pFormat);
-        super(GLDrawDevice.instance, w,h);
+        super(device, w,h);
         prepareTexture();
     }
 
-    this(uint w, uint h, DepthFormat dFormat)
+    this(DrawDevice device, uint w, uint h, DepthFormat dFormat)
     {
         //TODO depth format
         //_internalFormat = getInternalFormat(dFormat);
-        super(GLDrawDevice.instance, w, h);
+        super(device, w, h);
         prepareTexture();
     }
 
-    this(uint w, uint h, StencilFormat sFormat)
+    this(DrawDevice device, uint w, uint h, StencilFormat sFormat)
     {
         //TODO: stencil format
         //_internalFormat = getInternalFormat(sFormat);
-        super(GLDrawDevice.instance, w, h);
+        super(device, w, h);
         prepareTexture();
     }
 
-    this(uint w, uint h, 
+    this(DrawDevice device, uint w, uint h, 
             DepthFormat dFormat, StencilFormat sFormat)
     {
         //_internalFormat = getInternalFormat(dFormat, sFormat);
         //TODO depth stencil internalFormat
-        super(GLDrawDevice.instance, w, h);
+        super(device, w, h);
         prepareTexture();
     }
 }

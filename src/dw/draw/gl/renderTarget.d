@@ -13,6 +13,7 @@ import c.gl.glext;
 public import dw.draw.renderTarget;
 
 import dw.draw.pixelFormat;
+import dw.draw.gl.drawDevice;
 import dw.draw.gl.texture;
 
 // proxy for texture
@@ -27,27 +28,33 @@ class GLRenderTarget : RenderTarget
     @property override uint width() { return _texture.width; }
     @property override uint height() { return _texture.height; }
 
-    this(uint w, uint h, DepthFormat dFormat, StencilFormat sFormat)
-    {
-        super(TargetType.DEPTH_STENCIL);
-        _texture = new GLTexture(w, h, dFormat, sFormat);
-    }
-
-    this(uint w, uint h, DepthFormat dFormat)
-    {
-        super(TargetType.DEPTH);
-        _texture = new GLTexture(w, h, dFormat);
-    }
-
-    this(uint w, uint h, StencilFormat sFormat)
-    {
-        super(TargetType.STENCIL);
-        _texture = new GLTexture(w, h, sFormat);
-    }
-
-    this(uint w, uint h, PixelFormat pFormat)
+    this(GLTexture texture)
     {
         super(TargetType.COLOR);
-        _texture = new GLTexture(w, h, pFormat);
+        _texture = texture;
+    }
+
+    this(DrawDevice device, uint w, uint h, DepthFormat dFormat, StencilFormat sFormat)
+    {
+        super(TargetType.DEPTH_STENCIL);
+        _texture = new GLTexture(device, w, h, dFormat, sFormat);
+    }
+
+    this(DrawDevice device, uint w, uint h, DepthFormat dFormat)
+    {
+        super(TargetType.DEPTH);
+        _texture = new GLTexture(device, w, h, dFormat);
+    }
+
+    this(DrawDevice device, uint w, uint h, StencilFormat sFormat)
+    {
+        super(TargetType.STENCIL);
+        _texture = new GLTexture(device, w, h, sFormat);
+    }
+
+    this(DrawDevice device, uint w, uint h, PixelFormat pFormat)
+    {
+        super(TargetType.COLOR);
+        _texture = new GLTexture(device, w, h, pFormat);
     }
 }

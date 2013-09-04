@@ -12,6 +12,7 @@ import c.gl.glext;
 import c.glfw.glfw;
 
 import std.string;
+import std.conv;
 
 import dw.math.matrix;
 
@@ -41,14 +42,14 @@ class GLDrawDevice : DrawDevice
 
         GLDrawMesh _fsQuad; //Fullscreen quad TODO
         GLDrawProgram _meshProgram;
-        string TESTVS = import("dw/draw/gl/glsl/test.vs");
-        string TESTFS = import("dw/draw/gl/glsl/test.fs");
+        GLDrawProgram _defaultProgram;
+        static string TESTVS = import("dw/draw/gl/glsl/test.vs");
+        static string TESTFS = import("dw/draw/gl/glsl/test.fs");
 
     public:
 
         this()
         {
-            super();
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glDisable(GL_BLEND);
             glDisable(GL_CULL_FACE);
@@ -59,8 +60,92 @@ class GLDrawDevice : DrawDevice
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             /*
+            */
+
+            scope Mesh FSMESH = new Mesh(FSQUAD_VERTS, FSQUAD_FACES);
+            _fsQuad = new GLDrawMesh(this, FSMESH);
+            _meshProgram = new GLDrawProgram(this, TESTVS, TESTFS);
+            _defaultProgram = new GLDrawProgram(this, import("dw/draw/gl/glsl/default.vs"), 
+                                                      import("dw/draw/gl/glsl/default.fs"));
+        }
+
+        /**
+         * DrawMesh
+         */
+
+        override DrawMesh createDrawMesh(Mesh mesh)
+        {
+            return new GLDrawMesh(this, mesh);
+        }
+
+        /**
+         * Programs
+         */
+
+        //TODO: create program?
+
+        override @property void program(DrawProgram program)
+        {
+            super.program(program);
+            auto glProgram = cast(GLDrawProgram) program;
+            if(!glProgram)
+            {
+                glUseProgram(0);
+            }
+            glUseProgram(glProgram.glID); 
+        }
+
+        /**
+         * BAD
+         */
+
+        GLuint _primitiveQuery;
+        int _nprims;
+
+        void beginPrimitiveCount()
+        {
+            glGenQueries(1, &_primitiveQuery);
+            glBeginQuery(GL_PRIMITIVES_GENERATED, _primitiveQuery);
+        }
+
+        void endPrimitiveCount()
+        {
+            glEndQuery(GL_PRIMITIVES_GENERATED); 
+            glGetQueryObjectiv(_primitiveQuery, GL_QUERY_RESULT, &_nprims);
+        }
+
+        uint primitivesGenerated()
+        {
+            return _nprims;
+        }
+
+        void textureTarget(uint n, Texture texture)
+        {
+            GLTexture gtex = cast(GLTexture) texture;
+        
+        }
+
+        /**
+         * ENDBAD
+         */
+
+        override @property void framebuffer(Framebuffer fb)
+        {
+            if(!fb) { glBindFramebuffer(GL_FRAMEBUFFER, 0); return; }
+
+            GLFramebuffer glfb = cast(GLFramebuffer) fb; 
+            if(!glfb) { throw new Exception("Invalid framebuffer for current device");}
+            glBindFramebuffer(GL_FRAMEBUFFER, glfb.glID);
+
             GLint maxDrawBuffers;
             glGetIntegerv(GL_MAX_DRAW_BUFFERS, &maxDrawBuffers);
+            if(fb.renderTargets.length > maxDrawBuffers)
+            {
+                string excp = "Framebuffer has more than MAX_DRAW_BUFFERS (" ~
+                    to!string(maxDrawBuffers) ~ 
+                    "), buffers";
+                throw new Exception(excp);
+            }
             uint[] glBuffers = 
                 [
                     GL_COLOR_ATTACHMENT0,
@@ -80,29 +165,8 @@ class GLDrawDevice : DrawDevice
                     GL_COLOR_ATTACHMENT14,
                     GL_COLOR_ATTACHMENT15,
                 ];
-            glDrawBuffers(maxDrawBuffers, glBuffers.ptr);
-            */
-
-            scope Mesh FSMESH = new Mesh(FSQUAD_VERTS, FSQUAD_FACES);
-            _fsQuad = new GLDrawMesh(FSMESH);
-            _meshProgram = new GLDrawProgram(TESTVS, TESTFS);
-        }
-
-        /*
-        void swapBuffers()
-        {
-            //TODO: draw framebuffer contents to default gl surface
-        }
-        */
-
-        override @property void framebuffer(Framebuffer fb)
-        {
+            glDrawBuffers(cast(int) fb.renderTargets.length, glBuffers.ptr);
             super.framebuffer(fb);
-            if(!fb) { glBindFramebuffer(GL_FRAMEBUFFER, 0); return; }
-
-            GLFramebuffer glfb = cast(GLFramebuffer) fb; 
-            if(!glfb) { throw new Exception("Invalid framebuffer for current device");}
-            glBindFramebuffer(GL_FRAMEBUFFER, glfb.glID);
         }
 
         /**
@@ -119,12 +183,15 @@ class GLDrawDevice : DrawDevice
                 //program bind buffers/vao
                 //TODO: program.draw
             }
-            GLuint query;
-            glGenQueries(1, &query);
-            glBeginQuery(GL_PRIMITIVES_GENERATED, query);
 
+            // program (bound)
+            // framebuffer (bound)
+            // texture units (bound)
+            // uniforms (from function?)
+            // VAO (from model)
+            
             //XXX TMP
-            glUseProgram(_meshProgram.glID);
+            this.program = _meshProgram;
             glBindVertexArray(_fsQuad.vao);
             GLuint pos_uint = glGetAttribLocation(_meshProgram.glID, "position");
             GLuint uv_uint = glGetAttribLocation(_meshProgram.glID, "uv");
@@ -135,12 +202,6 @@ class GLDrawDevice : DrawDevice
             glVertexAttribPointer(uv_uint, 2, GL_UNSIGNED_SHORT, GL_TRUE, 
                     Vertex.sizeof, cast(void*)18);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, null);
-
-            glEndQuery(GL_PRIMITIVES_GENERATED);
-            int nprims;
-            glGetQueryObjectiv(query, GL_QUERY_RESULT, &nprims);
-            import std.stdio;
-            writeln("PRIMS ", nprims);
         }
 
         /**
@@ -167,12 +228,12 @@ class GLDrawDevice : DrawDevice
          */
         override GLTexture createTexture(uint w, uint h, PixelFormat pFormat)
         {
-            return new GLTexture(w, h, pFormat);
+            return new GLTexture(this, w, h, pFormat);
         }
 
         override GLTexture createTexture(Image image)
         {
-            return new GLTexture(image);
+            return new GLTexture(this, image);
         }
 
         /**
@@ -182,7 +243,7 @@ class GLDrawDevice : DrawDevice
                 DepthFormat dFormat = DepthFormat.DEPTH_24,
                 StencilFormat sFormat = StencilFormat.STENCIL_8)
         {
-            return new GLFramebuffer(w, h, dFormat, sFormat);
+            return new GLFramebuffer(this, w, h, dFormat, sFormat);
         }
 
         /**
@@ -191,22 +252,22 @@ class GLDrawDevice : DrawDevice
         override GLRenderTarget createDepthStencilRenderTarget(uint w, uint h, 
                 DepthFormat dFormat, StencilFormat sFormat)
         {
-            return new GLRenderTarget(w, h, dFormat, sFormat); 
+            return new GLRenderTarget(this, w, h, dFormat, sFormat); 
         }
 
         override GLRenderTarget createDepthRenderTarget(uint w, uint h, DepthFormat dFormat)
         {
-            return new GLRenderTarget(w, h, dFormat);
+            return new GLRenderTarget(this, w, h, dFormat);
         }
 
         override GLRenderTarget createStencilRenderTarget(uint w, uint h, StencilFormat sFormat)
         {
-            return new GLRenderTarget(w, h, sFormat);
+            return new GLRenderTarget(this, w, h, sFormat);
         }
 
         override GLRenderTarget createRenderTarget(uint w, uint h, 
                     PixelFormat pFormat)
         {
-            return new GLRenderTarget(w, h, pFormat); 
+            return new GLRenderTarget(this, w, h, pFormat); 
         }
 }

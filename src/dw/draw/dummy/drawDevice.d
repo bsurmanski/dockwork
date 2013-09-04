@@ -8,12 +8,15 @@
 module dw.draw.dummy.drawDevice;
 
 public import dw.draw.drawDevice;
+import dw.draw.drawProgram;
 import dw.draw.framebuffer;
 import dw.draw.renderTarget;
 import dw.draw.model;
 import dw.draw.drawLamp;
 import dw.draw.texture;
 import dw.draw.pixelFormat;
+import dw.draw.drawMesh;
+import dw.resource.mesh;
 import dw.resource.image;
 
 class DummyDrawDevice : DrawDevice
@@ -42,4 +45,9 @@ class DummyDrawDevice : DrawDevice
     override RenderTarget createRenderTarget(uint w, uint h,
             PixelFormat pFormat)
     { return null; }
+
+    override DrawMesh createDrawMesh(Mesh mesh)
+    {
+        return null;
+    }
 }

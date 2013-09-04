@@ -27,9 +27,11 @@ class GLDrawMesh : DrawMesh
     @property GLuint ibuffer() { return _ibuffer; }
     @property GLuint vbuffer() { return _vbuffer; }
 
-    this(MeshType mesh)
+    this(DrawDevice device, MeshType mesh)
     {
-        super(GLDrawDevice.instance, mesh.nVerts, mesh.nFaces);
+        assert(cast(GLDrawDevice) device);
+
+        super(device, mesh.nVerts, mesh.nFaces);
 
         glGenVertexArrays(1, &_vao);
         glBindVertexArray(_vao);

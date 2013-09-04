@@ -56,19 +56,20 @@ class GLDrawProgram : DrawProgram
             _dirty = true;
         }
 
-        this(string vshader, string fshader)
+        this(DrawDevice device, string vshader, string fshader)
         {
-            super(GLDrawDevice.instance); 
+            super(device); 
             _program = glCreateProgram();
-            GLDrawShader glvShader = new GLDrawShader(ShaderStage.VERTEX, vshader);
-            GLDrawShader glfShader = new GLDrawShader(ShaderStage.FRAGMENT, fshader);
+            //XXX createDrawShader instead of new
+            GLDrawShader glvShader = new GLDrawShader(device, ShaderStage.VERTEX, vshader);
+            GLDrawShader glfShader = new GLDrawShader(device, ShaderStage.FRAGMENT, fshader);
             setStage(ShaderStage.VERTEX, glvShader);
             setStage(ShaderStage.FRAGMENT, glfShader);
         }
 
-        this(GLDrawShader vshader, GLDrawShader fshader)
+        this(DrawDevice device, GLDrawShader vshader, GLDrawShader fshader)
         {
-            super(GLDrawDevice.instance);
+            super(device);
             _program = glCreateProgram();
             setStage(ShaderStage.VERTEX, vshader);
             setStage(ShaderStage.FRAGMENT, fshader);
